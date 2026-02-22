@@ -9,6 +9,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Dancing+Script:wght@700&display=swap');
         
+        :root {
+            --yes-scale: 1;
+        }
+
         body {
             font-family: 'Fredoka', sans-serif;
             background: linear-gradient(135deg, #0a0002 0%, #3e0015 25%, #1a0008 50%, #5c001f 75%, #0a0002 100%);
@@ -35,7 +39,7 @@
             border: 8px solid white;
             border-bottom: 40px solid white;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             background-color: white;
             object-fit: cover;
         }
@@ -70,9 +74,19 @@
         }
 
         @keyframes pulseHeart {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.9); }
-            50% { transform: scale(1.15); box-shadow: 0 0 30px 15px rgba(225, 29, 72, 0.9), 0 0 60px 30px rgba(159, 18, 57, 0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+            0% { transform: scale(var(--yes-scale)); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.9); }
+            50% { transform: scale(calc(var(--yes-scale) * 1.15)); box-shadow: 0 0 30px 15px rgba(225, 29, 72, 0.9), 0 0 60px 30px rgba(159, 18, 57, 0.8); }
+            100% { transform: scale(var(--yes-scale)); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+        }
+
+        /* Smooth entrance for celebratory text */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .celebrate-entrance {
+            animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         .voucher-card {
@@ -124,22 +138,24 @@
 
     <!-- PROPOSAL VIEW -->
     <div id="proposal-view" class="relative z-10 text-center max-w-lg w-full flex flex-col items-center opacity-0 transition-opacity duration-1000 hidden">
-        <div id="imageWrapper" class="mb-8 flex flex-row justify-center items-center gap-3 sm:gap-6 w-full px-2">
-            <img id="mainImage" src="https://i.postimg.cc/j2g1fqDS/IMG-1538.jpg" alt="Photo 1" class="photo-frame w-[45%] sm:w-48" style="animation: subtleFloat 3.5s ease-in-out infinite;">
-            <img id="secondImage" src="https://i.postimg.cc/W3pS7LLw/525024E0-EBDF-4916-B584-AB16AE032F6A.jpg" alt="Photo 2" class="photo-frame w-[45%] sm:w-48" style="animation: subtleFloat 4s ease-in-out infinite reverse;">
-        </div>
+        <div id="content-container" class="flex flex-col items-center w-full transition-all duration-700">
+            <div id="imageWrapper" class="mb-8 flex flex-row justify-center items-center gap-3 sm:gap-6 w-full px-2 transition-all duration-700">
+                <img id="mainImage" src="https://i.postimg.cc/j2g1fqDS/IMG-1538.jpg" alt="Photo 1" class="photo-frame w-[45%] sm:w-48" style="animation: subtleFloat 3.5s ease-in-out infinite;">
+                <img id="secondImage" src="https://i.postimg.cc/W3pS7LLw/525024E0-EBDF-4916-B584-AB16AE032F6A.jpg" alt="Photo 2" class="photo-frame w-[45%] sm:w-48" style="animation: subtleFloat 4s ease-in-out infinite reverse;">
+            </div>
 
-        <h1 id="question" class="cursive text-3xl sm:text-5xl font-bold text-white mb-8 leading-tight drop-shadow-lg px-4">
-            Will you be my girlfriend and allow me to be your manslut Bell Hathaichanok Phetgomol? 😉
-        </h1>
+            <h1 id="question" class="cursive text-3xl sm:text-5xl font-bold text-white mb-8 leading-tight drop-shadow-lg px-4 transition-all duration-500">
+                Will you be my girlfriend and allow me to be your manslut Bell Hathaichanok Phetgomol? 😉
+            </h1>
 
-        <div id="buttonContainer" class="flex flex-row justify-center items-center gap-6 min-h-[100px] w-full relative">
-            <button id="yesBtn" onclick="handleYes()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-10 rounded-full text-xl z-20 shadow-lg" style="animation: pulseHeart 1.2s infinite;">
-                Yes
-            </button>
-            <button id="noBtn" onmouseover="evadeButton()" ontouchstart="evadeButton()" class="bg-rose-300 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg">
-                No
-            </button>
+            <div id="buttonContainer" class="flex flex-row justify-center items-center gap-6 min-h-[120px] w-full relative transition-all duration-500">
+                <button id="yesBtn" onclick="handleYes()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-10 rounded-full text-xl z-20 shadow-lg transition-all duration-200" style="animation: pulseHeart 1.2s infinite;">
+                    Yes
+                </button>
+                <button id="noBtn" onmouseover="evadeButton()" ontouchstart="evadeButton()" onclick="evadeButton()" class="bg-rose-300 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg">
+                    No
+                </button>
+            </div>
         </div>
     </div>
 
@@ -185,7 +201,6 @@
         </div>
     </div>
 
-    <!-- AUDIO ELEMENT - Updated with Dropbox link -->
     <audio id="bgMusic" loop src="https://www.dropbox.com/scl/fi/l37yuc90otnssil6h58xk/RINI-Red-Lights-ft.-Wale-Official-Lyric-Video.mp3?rlkey=wmqjwhb4ikgphtdqh5x0szwg2&st=i2dgjeq4&raw=1"></audio>
 
     <button id="musicToggle" onclick="toggleMusic()" class="fixed bottom-6 right-6 z-[100] bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg border border-white/20">
@@ -198,10 +213,26 @@
         const entryOverlay = document.getElementById('entry-overlay');
         const proposalView = document.getElementById('proposal-view');
         const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
         const questionText = document.getElementById('question');
+        const buttonContainer = document.getElementById('buttonContainer');
+        const imageWrapper = document.getElementById('imageWrapper');
+        
         let isMusicPlaying = false;
+        let noTriggerCount = 0;
 
-        // Proximity detection for the No button
+        const persuadeMessages = [
+            "Are you sure? 🥺",
+            "Really really sure? 😢",
+            "Think again! 😭",
+            "But I'm your manslut! 😈",
+            "Don't break my heart... 💔",
+            "I'll be very sad... 😿",
+            "Look at the photos again! ❤️",
+            "Just click YES already! 😘",
+            "I'm not letting you say no! 😂"
+        ];
+
         document.addEventListener('mousemove', handleProximity);
         document.addEventListener('touchmove', handleProximity);
 
@@ -221,15 +252,26 @@
 
         function evadeButton() {
             if (questionText.innerText.includes("Yay")) return;
+            
             const x = Math.random() * (window.innerWidth - 120) + 60;
             const y = Math.random() * (window.innerHeight - 80) + 40;
             noBtn.style.position = 'fixed';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
+
+            noTriggerCount++;
+            const msgIndex = Math.min(noTriggerCount - 1, persuadeMessages.length - 1);
+            questionText.innerText = persuadeMessages[msgIndex];
+            
+            // Adjusted rate: scales up by 0.08 per trigger instead of 0.2
+            const newScale = Math.min(1 + (noTriggerCount * 0.08), 3.5);
+            document.documentElement.style.setProperty('--yes-scale', newScale);
+            
+            // Adjusted font growth: 1px per trigger instead of 2px
+            yesBtn.style.fontSize = (20 + noTriggerCount * 1) + 'px';
         }
 
         function startProposal() {
-            // Attempt to play music, but proceed even if it fails
             bgMusic.play().then(() => {
                 isMusicPlaying = true;
                 musicIcon.innerText = '🔊';
@@ -242,7 +284,6 @@
                 setTimeout(() => proposalView.style.opacity = '1', 50);
             }, 1000);
             
-            // Start the background rain
             setInterval(createRainItem, 200);
         }
 
@@ -261,39 +302,51 @@
             const mainImg = document.getElementById('mainImage');
             const secImg = document.getElementById('secondImage');
             
-            mainImg.src = "https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif";
-            mainImg.style.width = "70%";
-            mainImg.style.animation = "none";
-            if (secImg) secImg.style.display = 'none';
+            questionText.style.opacity = '0';
+            buttonContainer.style.opacity = '0';
             
-            questionText.innerText = "Yay!! ฉันคิดถึงเธอมากเลยนะ Bella! แล้วเจอกันที่กรุงเทพฯ เร็ว ๆ นี้นะ! ฉันตื่นเต้นและตั้งตารอทริปของพวกเราด้วยกันมาก ๆ เลย ❤️ ฉันรักเธอ 💕";
-            questionText.className = "cursive text-2xl sm:text-4xl text-rose-400 mt-4 leading-relaxed";
-            
-            noBtn.remove();
-            const btnContainer = document.getElementById('buttonContainer');
-            btnContainer.innerHTML = '';
-
-            // Confetti effect
-            for(let i=0; i<100; i++) {
-                setTimeout(createRainItem, i * 20);
-            }
-
             setTimeout(() => {
-                const nextBtn = document.createElement('button');
-                nextBtn.innerHTML = "Claim Your Reward 😈⛓️";
-                nextBtn.className = "bg-white text-rose-600 font-bold py-4 px-8 rounded-full shadow-2xl animate-bounce border-2 border-rose-600 mt-4";
-                nextBtn.onclick = () => {
-                    proposalView.style.opacity = '0';
-                    setTimeout(() => {
-                        proposalView.classList.add('hidden');
-                        const vView = document.getElementById('voucher-view');
-                        vView.classList.remove('hidden');
-                        vView.classList.add('flex');
-                        setTimeout(() => vView.style.opacity = '1', 50);
-                    }, 1000);
-                };
-                btnContainer.appendChild(nextBtn);
-            }, 2000);
+                document.documentElement.style.setProperty('--yes-scale', 1);
+                
+                mainImg.style.opacity = '0';
+                setTimeout(() => {
+                    mainImg.src = "https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif";
+                    mainImg.style.width = "70%";
+                    mainImg.style.animation = "none";
+                    mainImg.style.transform = "rotate(0deg) scale(1.1)";
+                    mainImg.style.opacity = '1';
+                    if (secImg) secImg.style.display = 'none';
+                }, 400);
+
+                questionText.innerText = "Yay!! ฉันคิดถึงเธอมากเลยนะ Bella! แล้วเจอกันที่กรุงเทพฯ เร็ว ๆ นี้นะ! ฉันตื่นเต้นและตั้งตารอทริปของพวกเราด้วยกันมาก ๆ เลย ❤️ ฉันรักเธอ 💕";
+                questionText.className = "cursive text-2xl sm:text-4xl text-rose-300 mt-6 leading-relaxed px-4 celebrate-entrance";
+                
+                noBtn.remove();
+                buttonContainer.innerHTML = '';
+                buttonContainer.style.opacity = '1';
+
+                for(let i=0; i<150; i++) {
+                    setTimeout(createRainItem, i * 15);
+                }
+
+                setTimeout(() => {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.innerHTML = "Claim Your Reward 😈⛓️";
+                    nextBtn.className = "bg-white text-rose-600 font-bold py-4 px-10 rounded-full shadow-2xl border-2 border-rose-600 mt-8 z-50 relative celebrate-entrance";
+                    nextBtn.style.animationDelay = "0.5s";
+                    nextBtn.onclick = () => {
+                        proposalView.style.opacity = '0';
+                        setTimeout(() => {
+                            proposalView.classList.add('hidden');
+                            const vView = document.getElementById('voucher-view');
+                            vView.classList.remove('hidden');
+                            vView.classList.add('flex');
+                            setTimeout(() => vView.style.opacity = '1', 50);
+                        }, 1000);
+                    };
+                    buttonContainer.appendChild(nextBtn);
+                }, 2500);
+            }, 500);
         }
 
         function createRainItem() {
